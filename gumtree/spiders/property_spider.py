@@ -18,13 +18,11 @@ class QuotesSpider(scrapy.Spider):
             print("URL:")
             print(url)
             yield scrapy.Request(response.urljoin(url), callback=self.parse_details)
-        print("###### RESPONSE #####")
-        print(response.body)
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
+        next_page = response.css("a.next.follows::attr(href)").extract_first()
+        if next_page is not None:
+          next_page = response.urljoin(next_page)
+          yield scrapy.Request(next_page, callback=self.parse)
+
 
     def parse_details(self, response):
         yield {
