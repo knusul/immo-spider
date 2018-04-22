@@ -69,13 +69,13 @@ ROBOTSTXT_OBEY = True
 #    'gumtree.pipelines.GumtreePipeline': 300,
 #}
 ITEM_PIPELINES = {
-            'gumtree.pipelines.DynamoDbPipeline': 2,
+           # 'gumtree.pipelines.DynamoDbPipeline': 2,
+            'gumtree.pipelines.PostgresqlPipeline': 2,
             }
-
-AWS_ACCESS_KEY_ID = env.key_id
-AWS_SECRET_ACCESS_KEY = env.access_key
-DYNAMODB_PIPELINE_REGION_NAME = 'eu-central-1'
-DYNAMODB_PIPELINE_TABLE_NAME = 'properties'
+#
+import os
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=".env")
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
