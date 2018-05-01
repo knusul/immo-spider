@@ -11,4 +11,13 @@ import scrapy
 class GumtreeItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    price = scrapy.Field()
+    area = scrapy.Field()
+    added_at = scrapy.Field()
+    sold_by = scrapy.Field()
+    rooms = scrapy.Field()
+    url = scrapy.Field()
+    description = scrapy.Field()
+    inactive = scrapy.Field()
+    updated_at = scrapy.Field()

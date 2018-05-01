@@ -1,3 +1,4 @@
 *.pyc
 tags
 output.json
+.env
