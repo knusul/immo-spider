@@ -5,7 +5,7 @@ from gumtree.items import GumtreeItem
 import dateutil
 
 
-class QuotesSpider(scrapy.Spider):
+class PropertySpider(scrapy.Spider):
     name = "properties"
 
     def start_requests(self):
