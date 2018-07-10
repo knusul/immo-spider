@@ -1,16 +1,17 @@
 from gumtree.spiders.property_spider import PropertySpider
 import scrapy
 import psycopg2
+import os
 
 class UpdateSpider(PropertySpider):
   name = "update_property_spider"
 
   def get_urls(self):
       print("###########")
-      hostname = 'localhost'
-      username = 'property'
-      password = '' # your password
-      database = 'properties'
+      hostname = os.environ["DB_HOSTNAME"]
+      username = os.environ["DB_USERNAME"]
+      password = os.environ["DB_PASSWORD"]
+      database = os.environ["DB_DATABASE"]
       self.connection = psycopg2.connect(host=hostname, user=username, password=password, dbname=database)
       self.cur = self.connection.cursor()
       self.cur.execute("select url from properties where inactive = false;")
