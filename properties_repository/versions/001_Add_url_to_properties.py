@@ -11,7 +11,7 @@ account = Table(
     Column('added_at', DateTime),
     Column('updated_at', DateTime),
     Column('area', Float),
-    Column('description', String(1024)),
+    Column('description', String(20000)),
     Column('inactive', Boolean),
     Column('price', Float),
     Column('rooms', String(255)),
@@ -25,7 +25,7 @@ cons = UniqueConstraint('url', table=account)
 
 def upgrade(migrate_engine):
     meta.bind = migrate_engine
-    #account.create()
+    account.create()
     #cons.create()
 
 

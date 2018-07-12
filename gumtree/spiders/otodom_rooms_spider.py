@@ -4,11 +4,11 @@ import json
 from unicodedata import normalize
 
 
-class RoomRentSpider(scrapy.Spider):
-    name = "otodom_properties"
+class OtodomRoomSpider(scrapy.Spider):
+    name = "otodom_rooms"
 
     def start_requests(self):
-        url = "https://www.otodom.pl/i2/oferty/results/?json=1&limit=50&compact=1&view=list&search%5Bcity_id%5D=38&search%5Bcategory_id%5D=101&page=1"
+        url = "https://www.otodom.pl/i2/ads/results/?json=1&limit=50&compact=1&view=list&search[city_id]=38&search[subregion_id]=410&search[category_id]=302&search[region_id]=6&search[order]=quality_score"
         yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
@@ -22,13 +22,16 @@ class RoomRentSpider(scrapy.Spider):
         ad = json.loads(response.body.decode("utf-8"))
         yield {
                 'title': normalize("NFKD", ad["title"]),
-                'price': normalize("NFKD", ad["list_label"].replace("zł", "").replace(" ","").replace(",",".")),
-                'area': float(ad["extra"]["m"]["value"].replace(" m²","").replace(",",".")),
+                'price': normalize("NFKD", ad["list_label"].replace(" zł/mc", "").replace(" ","").replace(",",".")),
                 'added_at': datetime.datetime.now(),
-                'rooms': ad["extra"]["rooms_num"]["value"],
                 'url': ad["url"],
                 'description': normalize("NFKD",ad["description"]),
                 'inactive': ad["status"] != "active",
                 "sold_by": "unknown",
-                "updated_at": datetime.datetime.now()
+                "updated_at": datetime.datetime.now(),
+                "area": None,
+                "rooms": None,
+                "lat": float(ad["map_lat"]),
+                "lon": float(ad["map_lon"]),
+                "source": "otodom-rooms"
         }
