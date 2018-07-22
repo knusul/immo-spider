@@ -33,5 +33,6 @@ class OtodomRoomSpider(scrapy.Spider):
                 "rooms": None,
                 "lat": float(ad["map_lat"]),
                 "lon": float(ad["map_lon"]),
-                "source": "otodom-rooms"
+                "source": "otodom-rooms",
+                "external_id": ad["id"]
         }
