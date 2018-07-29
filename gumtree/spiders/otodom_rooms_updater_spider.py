@@ -38,6 +38,7 @@ class OtodomRoomSpider(scrapy.Spider):
 		    'price': normalize("NFKD", ad["list_label"].replace(" zł/mc", "").replace(" ","").replace(",",".")),
 		    'created_at': datetime.datetime.now(),
 		    'inactive': ad["status"] != "active",
+		    'deactivated_at': datetime.datetime.now(),
 		    "lat": float(ad["map_lat"]),
 		    "lon": float(ad["map_lon"]),
 		    "external_id": ad["id"],

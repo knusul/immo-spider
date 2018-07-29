@@ -56,6 +56,19 @@ ROBOTSTXT_OBEY = True
 #DOWNLOADER_MIDDLEWARES = {
 #    'gumtree.middlewares.GumtreeDownloaderMiddleware': 543,
 #}
+# Retry many times since proxies often fail
+RETRY_TIMES = 10
+# Retry on most error codes since proxies fail for different reasons
+RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+
+DOWNLOADER_MIDDLEWARES = {
+    # ...
+    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+    # ...
+}
+ROTATING_PROXY_LIST_PATH  = '/home/ubuntu/crawler/proxies.txt'
+PROXY_MODE = 0
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

@@ -12,6 +12,7 @@ account = Table(
     Column('age', Integer, default=0),
     Column('lat', Float),
     Column('lon', Float),
+    Column('status', String)
 )
 
 def upgrade(migrate_engine):
@@ -21,5 +22,4 @@ def upgrade(migrate_engine):
 
 def downgrade(migrate_engine):
     meta.bind = migrate_engine
-    cons.drop()
     account.drop()
