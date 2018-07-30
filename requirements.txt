@@ -3,3 +3,4 @@ scrapy
 python-dotenv
 psycopg2
 colorama
+scrapy-rotating-proxies

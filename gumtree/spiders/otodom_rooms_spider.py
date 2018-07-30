@@ -1,7 +1,11 @@
 import scrapy
 import datetime
+from time import gmtime, strftime
 import json
 from unicodedata import normalize
+import locale
+import time
+locale.setlocale(locale.LC_TIME, 'pl_PL.utf-8')
 
 
 class OtodomRoomSpider(scrapy.Spider):
@@ -20,6 +24,14 @@ class OtodomRoomSpider(scrapy.Spider):
 
     def parse_details(self, response):
         ad = json.loads(response.body.decode("utf-8"))
+        today_m = int(datetime.datetime.today().strftime("%m"))
+        ad_date = time.strptime(ad["created_at"], '%d %b')
+        ad_m = int(strftime("%m", ad_date))
+        if( today_m > ad_m):
+            year  = int(datetime.datetime.today().strftime("%Y")) - 1
+        else:
+            year  = int(datetime.datetime.today().strftime("%Y"))
+
         yield {
                 'title': normalize("NFKD", ad["title"]),
                 'price': normalize("NFKD", ad["list_label"].replace(" zł/mc", "").replace(" ","").replace(",",".")),
@@ -34,5 +46,6 @@ class OtodomRoomSpider(scrapy.Spider):
                 "lat": float(ad["map_lat"]),
                 "lon": float(ad["map_lon"]),
                 "source": "otodom-rooms",
-                "external_id": ad["id"]
+                "external_id": ad["id"],
+                "created_at": ad_date.replace(year=year)
         }

@@ -35,7 +35,6 @@ class OtodomUpdater(object):
 
     def process_item(self, item, spider):
         try:
-            print("KABOOM")
             self.cur.execute("""insert into rented_rooms(properties_id,lat,lon,price,status,created_at,age) values(%s,%s,%s,%s,%s,%s,%s)""", (item['properties_id'],item["lat"], item["lon"], item["price"], item["status"], item["created_at"], item["age"]))
             self.cur.execute("""UPDATE  properties SET deactivated_at = %s, inactive = true where external_id = %s""", (self.default_encoder(item['deactivated_at']),item['external_id']))
         except psycopg2.Error as e:
