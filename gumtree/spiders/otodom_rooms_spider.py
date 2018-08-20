@@ -25,7 +25,11 @@ class OtodomRoomSpider(scrapy.Spider):
     def parse_details(self, response):
         ad = json.loads(response.body.decode("utf-8"))
         today_m = int(datetime.datetime.today().strftime("%m"))
-        ad_date = time.strptime(ad["created_at"], '%d %b')
+        if ad["created"].find("dzisiaj"):
+            ad_date =  datetime.datetime.now().timetuple()
+        else:
+            ad_date =  datetime.datetime.strptime(ad["created"], '%d %b').timetuple()
+
         ad_m = int(strftime("%m", ad_date))
         if( today_m > ad_m):
             year  = int(datetime.datetime.today().strftime("%Y")) - 1

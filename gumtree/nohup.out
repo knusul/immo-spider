@@ -1,0 +1,61 @@
+2018-05-01 11:33:58 [scrapy.utils.log] INFO: Scrapy 1.5.0 started (bot: gumtree)
+2018-05-01 11:33:58 [scrapy.utils.log] INFO: Versions: lxml 4.2.1.0, libxml2 2.9.8, cssselect 1.0.3, parsel 1.4.0, w3lib 1.19.0, Twisted 17.9.0, Python 3.5.2 (default, Nov 23 2017, 16:37:01) - [GCC 5.4.0 20160609], pyOpenSSL 17.5.0 (OpenSSL 1.1.0h  27 Mar 2018), cryptography 2.2.2, Platform Linux-4.4.0-1052-aws-x86_64-with-Ubuntu-16.04-xenial
+2018-05-01 11:33:58 [scrapy.crawler] INFO: Overridden settings: {'SPIDER_MODULES': ['gumtree.spiders'], 'ROBOTSTXT_OBEY': True, 'NEWSPIDER_MODULE': 'gumtree.spiders', 'BOT_NAME': 'gumtree', 'FEED_EXPORT_ENCODING': 'utf-8'}
+2018-05-01 11:33:58 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.memusage.MemoryUsage',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.logstats.LogStats']
+2018-05-01 11:33:58 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
+ 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-05-01 11:33:58 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-05-01 11:33:58 [scrapy.middleware] INFO: Enabled item pipelines:
+['gumtree.pipelines.PostgresqlPipeline']
+2018-05-01 11:33:58 [scrapy.core.engine] INFO: Spider opened
+2018-05-01 11:33:58 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2018-05-01 11:33:58 [scrapy.core.engine] ERROR: Scraper close failure
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/scrapy/crawler.py", line 82, in crawl
+    yield self.engine.open_spider(self.spider, start_requests)
+KeyError: 'DB_HOSTNAME'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/twisted/internet/defer.py", line 653, in _runCallbacks
+    current.result = callback(current.result, *args, **kw)
+  File "/home/ubuntu/crawler/gumtree/pipelines.py", line 35, in close_spider
+    self.cur.close()
+AttributeError: 'PostgresqlPipeline' object has no attribute 'cur'
+2018-05-01 11:33:58 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'finish_reason': 'shutdown',
+ 'finish_time': datetime.datetime(2018, 5, 1, 11, 33, 58, 251306),
+ 'log_count/ERROR': 1,
+ 'log_count/INFO': 6}
+2018-05-01 11:33:58 [scrapy.core.engine] INFO: Spider closed (shutdown)
+Unhandled error in Deferred:
+2018-05-01 11:33:58 [twisted] CRITICAL: Unhandled error in Deferred:
+
+2018-05-01 11:33:58 [twisted] CRITICAL: 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/twisted/internet/defer.py", line 1386, in _inlineCallbacks
+    result = g.send(result)
+  File "/usr/local/lib/python3.5/dist-packages/scrapy/crawler.py", line 82, in crawl
+    yield self.engine.open_spider(self.spider, start_requests)
+KeyError: 'DB_HOSTNAME'

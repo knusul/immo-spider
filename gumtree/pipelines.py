@@ -70,6 +70,7 @@ class PostgresqlPipeline(object):
         self.connection.close()
 
     def process_item(self, item, spider):
+        print(item)
         print("""insert into properties(title,price,area,added_at,sold_by,rooms,url,description,inactive,updated_at) values('%s','%s',%s,'%s','%s','%s','%s','%s','%s','%s') ON CONFLICT(url) DO UPDATE SET visits = properties.visits + 1, price = EXCLUDED.price""" % (item['title'],item['price'],item['area'],self.default_encoder(item['added_at']),item['sold_by'],item['rooms'],item['url'],item['description'],item['inactive'],self.default_encoder(item['updated_at'])))
         try:
             self.cur.execute("""insert into properties(title,price,area,added_at,sold_by,rooms,url,description,inactive,updated_at,lat,lon,source,external_id) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(url) DO UPDATE SET visits = properties.visits + 1, price = EXCLUDED.price, inactive= EXCLUDED.inactive""", (item['title'],item['price'],item['area'],self.default_encoder(item['added_at']),item['sold_by'],item['rooms'],item['url'],item['description'],item['inactive'],self.default_encoder(item['updated_at']),item["lat"], item["lon"], item["source"], item["external_id"]))

@@ -22,15 +22,15 @@ class OtodomRoomSpider(scrapy.Spider):
     name = "otodom_rooms_updater"
 
     def start_requests(self):
-        ad_ids = self.cur.execute("""select external_id,added_at from properties WHERE external_id IS NOT NULL;""")
+        ad_ids = self.cur.execute("""select properties.external_id, added_at, properties.id from properties left outer join rented_rooms on rented_rooms.properties_id = properties.id where rented_rooms.properties_id is null AND properties.external_id is not null;""")
         ad_ids = [row for row in self.cur.fetchall()]
-        print(ad_ids)
         for ad_id in ad_ids:
             url = "https://www.otodom.pl/i2/oferta/?json=1&id=" + str(ad_id[0])
-            yield scrapy.Request(url=url, callback=self.parse_details, meta={'added_at':ad_id[1]})
+            yield scrapy.Request(url=url, callback=self.parse_details, meta={'ad_id': ad_id[2], 'added_at':ad_id[1]})
     def parse_details(self, response):
         print(response.status)
         age = (datetime.datetime.now() - response.meta['added_at']).days
+        ad_id = response.meta['ad_id']
         ad = json.loads(response.body.decode("utf-8"))
         print(ad["status"])
         if(ad["status"]!= "active"):
@@ -43,6 +43,6 @@ class OtodomRoomSpider(scrapy.Spider):
 		    "lon": float(ad["map_lon"]),
 		    "external_id": ad["id"],
 		    'status': ad["status"],
-		    "properties_id": ad["id"],
+		    "properties_id": ad_id,
 		    "age": age
 		    }
